@@ -8,15 +8,19 @@
 		var columncount = 3;
 		var tableName = "Lalala";
 		$("document").ready(function() {
+			
 		$("div#TableName").html(tableName);
 			$("button#getTableButton").click(function() {
 				rowcount = 5;
+				columncount = 3;
 				i = columncount+1;
+				
 				while (i < 7)
 				{
 					columntohide = "th#h"+i;
 					 $(columntohide).css("display", "none");
 					i++;
+					
 					
 				}
 				$("#Content").html("");
@@ -32,17 +36,87 @@
 				}
 				for(i = columncount+1; i < 7; i++)
 				{
+					
 					$("#input" + i).css("display", "none");
+					$("#input" + i).css("opacity", "0");
 				}
 			
 			
 			});
 		});
-
     </script>
+
+
+
+	<style>
+/*parallax 1*/
+	#parallax2, #parallax3 {
+    /* The image used */
+  background-image: url('img/img1.jpg');
+    background-color: #0d0000;
+
+    /* Set a specific height */
+    height: 75%; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+	}
+	
+	#parallax{
+    /* The image used */
+     background-image: url("img/img2.jpg");
+    background-color: #0d0000;
+
+    /* Set a specific height */
+    height: 75%; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+	}
+
+	#selectdiv{
+	text-align: center;
+	background-image: url('img/newphoto.jpg')
+	}
+	
+	table{
+		border-collapse: collapse;
+		width: 100%;
+		border-style: hidden;
+	}
+	
+	th, td {
+		padding: 8px;
+		text-align: left;
+		border-bottom: 1px solid #ddd;
+		border-left-style: hidden;
+		border-right-style: hidden;
+	}
+	tr:hover {background-color: #6f6c93}
+	
+	
+	
+</style>
+	
+	<script>
+		rowcount = 0;
+		columncount = 6;
+		tableName = "";
+    </script>
+    
 </head>
 <body>
-    
+
+<div id="parallax"></div>  
+	
+    <div id="selectdiv">
+    <br />
 	<select>
 	  <option value="volvo">FOOD CONTAINS</option>
 	  <option value="saab">CUSTOMER</option>
@@ -85,6 +159,19 @@
 
 	
 	
+	
+	</div>
+	
+	
+	<div id="parallax2"></div>
+
+	
+	
+	<BR>
+	<BR>
+	
+	
+	<div id="selectdiv">
 	<BR>
 	<BR>
 	
@@ -102,6 +189,9 @@
 	
 	<br><br>
 	<button class="waitForAnimation" id="Draw">Add Entry</button>
+    
+	</div>
+    
 	
 </body>
 </html>

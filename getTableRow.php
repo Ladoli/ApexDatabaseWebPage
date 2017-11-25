@@ -1,24 +1,16 @@
 <?php
+		
+			
 			$link = mysqli_connect("localhost", "root", "", "demo2300");
-			echo "TEST";
 			if($link)
 			{
-				$result = mysqli_select_db($link, 'login');
-				echo "TEST";
-				if($result)
-				{
-					
-						
-						$query = "SELECT count(*) FROM INGREDIENTS";
+
+						$query = "SELECT * FROM INGREDIENTS";
 						$rowCount = mysqli_query($link, $query);
-					
-						
-						
-						echo $rowCount
-						
-						
-				}
+						$rows = mysqli_num_rows($rowCount);
+						echo $rows;
+
 			}
 			
-			echo "TEST";
+
 ?>

@@ -13,19 +13,26 @@
 			$("button#getTableButton").click(function() {
 
 				tableName = ($("#tableSelection option:selected").val());
-				alert(tableName);
-				$.post('getTableRow.php',
-			            {
-			                tName: "INGREDIENTS",
-			            }, function() {
-							alert("FDSDS");
-
-							});
-						
+				$.post( "getTableRow.php", {}, function( data ) {
+						 rowcount = data;
+				});
 						
 
+				$.post( "getHeaderNames.php", {}, function( data ) {
+						 alert(data);
+				});
+				
+				tableName = ($("#tableSelection option:selected").val());
+				$.post( "getTableRow.php", {}, function( data ) {
+						 rowcount = data;
+				});
+				
+				
 				columncount = 3;
 				i = columncount+1;
+				
+				
+				
 				
 				while (i < 7)
 				{
@@ -35,7 +42,13 @@
 					
 					
 				}
+				
+				
+				
 				$("#Content").html("");
+				
+				alert(rowcount);
+				
 				for(i = 1; i<rowcount+1; i++)
 				{
 					$("#Content").append("<tr>");
@@ -55,6 +68,18 @@
 			
 			
 			});
+			
+			$("button#Draw").click(function() {
+				$.get( "http://localhost/test0test.php", {}, function(  ) {
+				alert("WHY");
+				});
+				
+				$.post( "http://localhost/test0test.php", {}, function( data ) {
+				alert("WH");
+				});
+				alert("WHY2");
+			});	
+			
 		});
     </script>
 
@@ -125,8 +150,10 @@
 </head>
 <body>
 
+
 <div id="parallax"></div>  
 	
+
     <div id="selectdiv">
     <br />
 	<select id= "tableSelection">

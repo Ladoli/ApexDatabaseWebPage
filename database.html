@@ -11,7 +11,19 @@
 			
 		$("div#TableName").html(tableName);
 			$("button#getTableButton").click(function() {
-				rowcount = 5;
+
+				tableName = ($("#tableSelection option:selected").val());
+				alert(tableName);
+				$.post('getTableRow.php',
+			            {
+			                tName: "INGREDIENTS",
+			            }, function() {
+							alert("FDSDS");
+
+							});
+						
+						
+
 				columncount = 3;
 				i = columncount+1;
 				
@@ -117,11 +129,11 @@
 	
     <div id="selectdiv">
     <br />
-	<select>
-	  <option value="volvo">FOOD CONTAINS</option>
-	  <option value="saab">CUSTOMER</option>
-	  <option value="mercedes">FOOD</option>
-	  <option value="audi">INGREDIENTS</option>
+	<select id= "tableSelection">
+	  <option value="CONTAINS">FOOD CONTAINS</option>
+	  <option value="CUSTOMER">CUSTOMER</option>
+	  <option value="FOOD">FOOD</option>
+	  <option value="INGREDIENTS">INGREDIENTS</option>
 	  <option value="audi">ORDERED</option>
 	  <option value="audi">ORDERS</option>
 	  <option value="audi">PURCHASE</option>

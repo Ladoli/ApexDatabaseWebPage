@@ -4,8 +4,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="Vstyles.css">
 	<script>
-		var rowcount = 3;
-		var columncount = 4;
+		var rowcount = 0;
+		var columncount = 0;
 		var tableName = "Lalala";
 		var headernames ="";
 		var tableData ="";
@@ -52,7 +52,6 @@
 					
 					$.post( "getTableContent.php", {}, function( data ) {
 							tableData = data.split('^');
-							alert(tableData);
 							for(i = 1; i<4; i++)
 							{
 								var entry = tableData[i-1].split(',');
@@ -82,7 +81,18 @@
 			});
 			
 			$("button#Draw").click(function() {
-
+							var addData ="";
+							for(v=0; v<4; v++)
+							{
+								
+								y = v+1;
+								z = $("#input"+y).val();
+								addData += z +",";
+							}
+							addData = addData.split(",");
+							
+							$.post( "insertData.php", {val1: addData[0], val2: addData[1], val3: addData[2], val4: addData[3]} );
+							
 			});	
 			
 		});

@@ -4,80 +4,85 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="Vstyles.css">
 	<script>
-		var rowcount = 0;
-		var columncount = 3;
+		var rowcount = 3;
+		var columncount = 4;
 		var tableName = "Lalala";
+		var headernames ="";
+		var tableData ="";
 		$("document").ready(function() {
 			
 		$("div#TableName").html(tableName);
 			$("button#getTableButton").click(function() {
-
+				$("#Content").html("");
+				$("#headersofTable").html("");
 				tableName = ($("#tableSelection option:selected").val());
 				$.post( "getTableRow.php", {}, function( data ) {
-						 rowcount = data;
+					rowcount = data;
+				
+					$.post( "getHeaderNames.php", {}, function( data ) {
+						headernames = data.split(',');
+						columncount = headernames.length;
+						i = columncount+1;
+						
+						
+						
+								$("#headersofTable").append("<tr>");
+									for(k = 1; k<i; k++)
+									{
+									$("#headersofTable").append("<th>" + headernames[k-1] + "</th>");
+									}
+								
+								$("#headersofTable").append("</tr>");
+						
+
+						
+						while (i < 7)
+						{
+							columntohide = "th#h"+i;
+							 $(columntohide).css("display", "none");
+							i++;
+
+						}
+						for(i = columncount+1; i < 7; i++)
+						{
+							$("#input" + i).css("display", "none");
+							$("#input" + i).css("opacity", "0");
+						}
+					});
+					
+					$.post( "getTableContent.php", {}, function( data ) {
+							tableData = data.split('^');
+							alert(tableData);
+							for(i = 1; i<4; i++)
+							{
+								var entry = tableData[i-1].split(',');
+								$("#Content").append("<tr>");
+									for(j = 1; j<5; j++)
+									{
+									
+									$("#Content").append("<td id=\"r" + i + "c" +  j +  "\">" + entry[j-1] + "</td>");
+									}
+								
+								$("#Content").append("</tr>");
+							}
+							
+					});
+				
+				
+				
 				});
 						
 
-				$.post( "getHeaderNames.php", {}, function( data ) {
-						 alert(data);
-				});
 				
-				tableName = ($("#tableSelection option:selected").val());
-				$.post( "getTableRow.php", {}, function( data ) {
-						 rowcount = data;
-				});
+
 				
 				
-				columncount = 3;
-				i = columncount+1;
-				
-				
-				
-				
-				while (i < 7)
-				{
-					columntohide = "th#h"+i;
-					 $(columntohide).css("display", "none");
-					i++;
-					
-					
-				}
-				
-				
-				
-				$("#Content").html("");
-				
-				alert(rowcount);
-				
-				for(i = 1; i<rowcount+1; i++)
-				{
-					$("#Content").append("<tr>");
-						for(j = 1; j<columncount+1; j++)
-						{
-						$("#Content").append("<td id=\"r" + i + "c" +  j +  "\"></td>");
-						}
-					
-					$("#Content").append("</tr>");
-				}
-				for(i = columncount+1; i < 7; i++)
-				{
-					
-					$("#input" + i).css("display", "none");
-					$("#input" + i).css("opacity", "0");
-				}
 			
 			
 			});
 			
 			$("button#Draw").click(function() {
-				$.get( "http://localhost/test0test.php", {}, function(  ) {
-				alert("WHY");
-				});
-				
-				$.post( "http://localhost/test0test.php", {}, function( data ) {
-				alert("WH");
-				});
-				alert("WHY2");
+
 			});	
 			
 		});
@@ -181,7 +186,7 @@
 	</div>
 
 
-	<table>
+	<table id="headersofTable">
 		<tr>
 			<th id="h1">a</th>
 			<th id="h2">b</th>

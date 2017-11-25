@@ -9,8 +9,17 @@
 				
 				$sql = "SHOW COLUMNS FROM INGREDIENTS";
 				$result = mysqli_query($link, $sql);
+				$index = 0;
 				while($row = mysqli_fetch_array($result)){
-				$headernames .=  $row['Field'].", ";
+					if($index == 0)
+					{
+						$headernames .=  $row['Field'];
+						$index++;
+					}
+					else
+					{
+						$headernames .=  ", ".$row['Field'];
+					}
 				}
 				
 				echo $headernames;

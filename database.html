@@ -11,15 +11,16 @@
 		var tableData ="";
 		$("document").ready(function() {
 			
-		$("div#TableName").html(tableName);
+		
 			$("button#getTableButton").click(function() {
 				$("#Content").html("");
 				$("#headersofTable").html("");
 				tableName = ($("#tableSelection option:selected").val());
-				$.post( "getTableRow.php", {}, function( data ) {
+				$("div#TableName").html(tableName);
+				$.post( "getTableRow.php", {table: tableName,}, function( data ) {
 					rowcount = data;
 				
-					$.post( "getHeaderNames.php", {}, function( data ) {
+					$.post( "getHeaderNames.php", {table: tableName,}, function( data ) {
 						headernames = data.split(',');
 						columncount = headernames.length;
 						i = columncount+1;
@@ -50,16 +51,17 @@
 						}
 					});
 					
-					$.post( "getTableContent.php", {}, function( data ) {
+					$.post( "getTableContent.php", {table: tableName,}, function( data ) {
 							tableData = data.split('^');
-							for(i = 1; i<4; i++)
+							z = (rowcount);
+							z++;
+							for(i = 1; i<z; i++)
 							{
 								var entry = tableData[i-1].split(',');
 								$("#Content").append("<tr>");
-									for(j = 1; j<5; j++)
+									for(j = 1; j<(columncount +1); j++)
 									{
-									
-									$("#Content").append("<td id=\"r" + i + "c" +  j +  "\">" + entry[j-1] + "</td>");
+										$("#Content").append("<td id=\"r" + i + "c" +  j +  "\">" + entry[j-1] + "</td>");
 									}
 								
 								$("#Content").append("</tr>");
@@ -91,8 +93,8 @@
 							}
 							addData = addData.split(",");
 							
-							$.post( "insertData.php", {val1: addData[0], val2: addData[1], val3: addData[2], val4: addData[3]} );
-							
+							$.post( "insertData.php", {table: tableName, val1: addData[0], val2: addData[1], val3: addData[2], val4: addData[3]} );
+							$("button#getTableButton").click();
 			});	
 			
 		});
@@ -156,11 +158,6 @@
 	
 </style>
 	
-	<script>
-		rowcount = 0;
-		columncount = 6;
-		tableName = "";
-    </script>
     
 </head>
 <body>
@@ -176,14 +173,14 @@
 	  <option value="CUSTOMER">CUSTOMER</option>
 	  <option value="FOOD">FOOD</option>
 	  <option value="INGREDIENTS">INGREDIENTS</option>
-	  <option value="audi">ORDERED</option>
-	  <option value="audi">ORDERS</option>
-	  <option value="audi">PURCHASE</option>
-	  <option value="audi">RESERVATION</option>
-	  <option value="audi">STAFF</option>
-	  <option value="audi">SUPPLIERS</option>
+	  <option value="ORDERED">ORDERED</option>
+	  <option value="ORDERS">ORDERS</option>
+	  <option value="PURCHASE">PURCHASE</option>
+	  <option value="RESERVATION">RESERVATION</option>
+	  <option value="STAFF">STAFF</option>
+	  <option value="SUPPLIERS">SUPPLIERS</option>
 	  <option value="audi">SUPPLIER SUPPLIES</option>
-	  <option value="audi">RESTAURANT TABLES</option>
+	  <option value="TABLES">RESTAURANT TABLES</option>
 	  
 	</select>
 	

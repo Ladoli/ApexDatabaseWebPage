@@ -9,8 +9,9 @@
 		var tableName = "Lalala";
 		var headernames ="";
 		var tableData ="";
+		var phpArray = "";
 		$("document").ready(function() {
-			
+			phpArray = "";
 		
 			$("button#getTableButton").click(function() {
 				$("#Content").html("");
@@ -22,6 +23,17 @@
 				
 					$.post( "getHeaderNames.php", {table: tableName,}, function( data ) {
 						headernames = data.split(',');
+						
+								for (p = 0; p < (headernames.length-1);p++)
+								{
+									phpArray += headernames[p] + ",";
+								}
+								
+								phpArray += headernames[headernames.length-1];
+
+								
+				
+				
 						columncount = headernames.length;
 						i = columncount+1;
 						
@@ -50,8 +62,9 @@
 							$("#input" + i).css("opacity", "0");
 						}
 					});
-					
-					$.post( "getTableContent.php", {table: tableName,}, function( data ) {
+
+					$.post( "getTableContent.php", {table: tableName, headers: phpArray,}, function( data ) {
+							alert(data);
 							tableData = data.split('^');
 							z = (rowcount);
 							z++;
@@ -96,6 +109,7 @@
 							$.post( "insertData.php", {table: tableName, val1: addData[0], val2: addData[1], val3: addData[2], val4: addData[3]} );
 							$("button#getTableButton").click();
 			});	
+
 			
 		});
     </script>

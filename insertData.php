@@ -1,4 +1,5 @@
 <?php
+		$table =$_POST['table'];
 		$val1 = $_POST['val1'];
 		$val2 = $_POST['val2'];
 		$val3 = $_POST['val3'];
@@ -8,7 +9,7 @@
 			if($link)
 			{
 
-				$sql = "INSERT into INGREDIENTS VALUES ('$val1' ,'$val2', '$val3', '$val4')";
+				$sql = "INSERT into ".$table." VALUES ('$val1' ,'$val2', '$val3', '$val4')";
 				$result = mysqli_query($link, $sql);
 				
 			}

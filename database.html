@@ -79,16 +79,26 @@
 			
 			$("button#Draw").click(function() {
 							var addData ="";
-							for(v=0; v<4; v++)
+							
+							for(v=0; v<7; v++)
 							{
-								
-								y = v+1;
-								z = $("#input"+y).val();
-								addData += z +",";
+								if(v<columncount)
+								{
+									y = v+1;
+									z = $("#input"+y).val();
+									addData += z +",";
+								}
+								else
+								{
+								addData += ", ";
+								}
 							}
 							addData = addData.split(",");
 							
-							$.post( "insertData.php", {table: tableName, val1: addData[0], val2: addData[1], val3: addData[2], val4: addData[3]} );
+							
+							$.post( "insertData.php", {table: tableName, cols: columncount, val1: addData[0], val2: addData[1], val3: addData[2], val4: addData[3],val5: addData[4],val6: addData[5],}, function( data ) {
+							alert(data);
+							});
 							$("button#getTableButton").click();
 			});	
 

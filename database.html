@@ -9,18 +9,24 @@
 		var tableName = "Lalala";
 		var headernames ="";
 		var tableData ="";
+		var phpArray = "";
 		$("document").ready(function() {
-			
-		$("div#TableName").html(tableName);
+					
 			$("button#getTableButton").click(function() {
 				$("#Content").html("");
 				$("#headersofTable").html("");
+				$("input").css("display", "inline");
+				$("input").css("opacity", "100");
 				tableName = ($("#tableSelection option:selected").val());
-				$.post( "getTableRow.php", {}, function( data ) {
+				$("div#TableName").html(tableName);
+				$.post( "getTableRow.php", {table: tableName,}, function( data ) {
 					rowcount = data;
 				
-					$.post( "getHeaderNames.php", {}, function( data ) {
+					$.post( "getHeaderNames.php", {table: tableName,}, function( data ) {
 						headernames = data.split(',');
+													
+				
+				
 						columncount = headernames.length;
 						i = columncount+1;
 						
@@ -29,7 +35,7 @@
 								$("#headersofTable").append("<tr>");
 									for(k = 1; k<i; k++)
 									{
-									$("#headersofTable").append("<th>" + headernames[k-1] + "</th>");
+										$("#headersofTable").append("<th>" + headernames[k-1] + "</th>");
 									}
 								
 								$("#headersofTable").append("</tr>");
@@ -49,51 +55,55 @@
 							$("#input" + i).css("opacity", "0");
 						}
 					});
-					
-					$.post( "getTableContent.php", {}, function( data ) {
+
+					$.post( "getTableContent.php", {table: tableName,}, function( data ) {
 							tableData = data.split('^');
-							for(i = 1; i<4; i++)
+							z = (rowcount);
+							z++;
+							for(i = 1; i<z; i++)
 							{
 								var entry = tableData[i-1].split(',');
 								$("#Content").append("<tr>");
-									for(j = 1; j<5; j++)
+									for(j = 1; j<(columncount +1); j++)
 									{
-									
-									$("#Content").append("<td id=\"r" + i + "c" +  j +  "\">" + entry[j-1] + "</td>");
+										$("#Content").append("<td id=\"r" + i + "c" +  j +  "\">" + entry[j-1] + "</td>");
 									}
 								
 								$("#Content").append("</tr>");
 							}
 							
 					});
-				
-				
-				
 				});
-						
-
-				
-
-				
-				
-			
 			
 			});
 			
 			$("button#Draw").click(function() {
 							var addData ="";
-							for(v=0; v<4; v++)
+							
+							for(v=0; v<7; v++)
 							{
-								
-								y = v+1;
-								z = $("#input"+y).val();
-								addData += z +",";
+								if(v<columncount)
+								{
+									y = v+1;
+									z = $("#input"+y).val();
+									addData += z +",";
+								}
+								else
+								{
+								addData += ", ";
+								}
 							}
 							addData = addData.split(",");
 							
-							$.post( "insertData.php", {val1: addData[0], val2: addData[1], val3: addData[2], val4: addData[3]} );
 							
+							$.post( "insertData.php", {table: tableName, cols: columncount, val1: addData[0], val2: addData[1], val3: addData[2], val4: addData[3],val5: addData[4],val6: addData[5],}, function( data ) {
+							alert(data);
+							});
+							$("button#getTableButton").click();
 			});	
+
+			
+			
 			
 		});
     </script>
@@ -156,11 +166,6 @@
 	
 </style>
 	
-	<script>
-		rowcount = 0;
-		columncount = 6;
-		tableName = "";
-    </script>
     
 </head>
 <body>
@@ -176,14 +181,14 @@
 	  <option value="CUSTOMER">CUSTOMER</option>
 	  <option value="FOOD">FOOD</option>
 	  <option value="INGREDIENTS">INGREDIENTS</option>
-	  <option value="audi">ORDERED</option>
-	  <option value="audi">ORDERS</option>
-	  <option value="audi">PURCHASE</option>
-	  <option value="audi">RESERVATION</option>
-	  <option value="audi">STAFF</option>
-	  <option value="audi">SUPPLIERS</option>
-	  <option value="audi">SUPPLIER SUPPLIES</option>
-	  <option value="audi">RESTAURANT TABLES</option>
+	  <option value="ORDERED">ORDERED</option>
+	  <option value="ORDERS">ORDERS</option>
+	  <option value="PURCHASE">PURCHASE</option>
+	  <option value="RESERVATION">RESERVATION</option>
+	  <option value="STAFF">STAFF</option>
+	  <option value="SUPPLIERS">SUPPLIERS</option>
+	  <option value="SUPPLIES">SUPPLIER SUPPLIES</option>
+	  <option value="TABLES">RESTAURANT TABLES</option>
 	  
 	</select>
 	
@@ -212,25 +217,17 @@
 	</table>
 
 	
-	
-	
+		<BR>
+		<BR>
 	</div>
-	
-	
-	<div id="parallax2"></div>
+
 
 	
 	
-	<BR>
-	<BR>
-	
-	
 	<div id="selectdiv">
-	<BR>
-	<BR>
+
 	
-	
-	
+	<br>
 	New Entry<br> <input type="text" id = "input1" value=""></input>
 	<input type="text" id = "input2" value=""></input>
 	<input type="text" id = "input3" value=""></input>
@@ -245,6 +242,12 @@
 	<button class="waitForAnimation" id="Draw">Add Entry</button>
     
 	</div>
+	
+	<div id="parallax2"></div>
+
+	
+	
+	
     
 	
 </body>
